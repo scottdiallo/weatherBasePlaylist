@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+        <input type="submit" id="btnLocalWeatherPremium" value="Get Local Weather - Premium API" />
+        <br />
+        <br />
+        <input type="submit" id="btnLocationSearchPremium" value="Search Location - Premium API" />
+        <br />
+        <br />
+        <input type="submit" id="btnTimeZonePremium" value="Get Time Zone - Premium API" />
+        <br />
+        <br />
+        <input type="submit" id="btnMarineWeatherPremium" value="Get Marine Weather - Premium API" />
+        <br />
+        <br />
+        <input type="submit" id="btnPastWeatherPremium" value="Get Past Weather - Premium API" />
+        <br />
+        <br />
+        <div id="resultContainer">
+        </div>
+    </div>
+    </form>
+</body>
+</html>
+<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+<script src="premiumAPI.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+    var resultContainer = $('#resultContainer');
+    var output = '';
+
+    $(document).ready(function () {
+
+        $('#btnLocalWeatherPremium').click(GetLocalWeather);
+        $('#btnLocationSearchPremium').click(SearchLocation);
+        $('#btnTimeZonePremium').click(GetTimeZone);
+        $('#btnMarineWeatherPremium').click(GetMarineWeather);
+        $('#btnPastWeatherPremium').click(GetPastWeather);
+
+    });
+
+    //------------ LOCAL WEATHER ----------------
+
+    function GetLocalWeather(e) {
+
+        var localWeatherInput = {
+            query: 'san francisco',
+            format: 'JSON',
+            num_of_days: '2',
+            date: '',
+            fx: '',
+            cc: '',
+            tp: '',
+            includelocation: '',
+            show_comments: '',
+            callback: 'LocalWeatherCallback'
+        };
+
+        JSONP_LocalWeather(localWeatherInput);
+        e.preventDefault();
+    }
+
+    function LocalWeatherCallback(localWeather) {
+
+        output = "<br/> Cloud Cover: " + localWeather.data.current_condition[0].cloudcover;
+        output += "<br/> Humidity: " + localWeather.data.current_condition[0].humidity;
+        output += "<br/> Temp C: " + localWeather.data.current_condition[0].temp_C;
+        output += "<br/> Visibility: " + localWeather.data.current_condition[0].weatherDesc[0].value;
+
+        resultContainer.empty();
+        resultContainer.html(output);
+
+    }
+
+    //-------------------------------------------
+
+
+
+
+</script>
