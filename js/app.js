@@ -55,7 +55,7 @@ $(function() {
     }
 
     function JSONP_LocalWeather(input) {
-        var url = _PremiumApiBaseURL + 'weather.ashx?q=' + input.query + '&format=' + input.format + '&extra=' + input.extra + '&num_of_days=' + input.num_of_days + '&date=' + input.date + '&fx=' + input.fx + '&tp=' + input.tp + '&cc=' + input.cc + '&includelocation=' + input.includelocation + '&show_comments=' + input.show_comments + '&key=' + _PremiumApiKey;
+        var url = _PremiumApiBaseURL + 'weather.ashx?q=' + input.query + '&format=' + input.format +  '&num_of_days=' + input.num_of_days + '&key=' + _PremiumApiKey;
 
         jsonP(url, input.callback);
     }
