@@ -16,7 +16,19 @@ p {
 
 .button {
     padding: 1.8em;
+    margin-top: 5px;
     border: 0;
-    background-color: cornflowerblue;
-    font-size: 1.3em;
+    background-color: #EAD996;
+    outline: none;
+    font-size: 2em;
+    font-family: 'Ubuntu', sans-serif;
+    border-radius: 30px;
+    font-weight: 400;
+}
+.container {
+    text-align: center;
+}
+
+.sunnyImage {
+    background-image: url('../images/first_image.jpg');
 }

@@ -71,10 +71,15 @@ $(function() {
 
     function LocalWeatherCallback(weather) {
         console.log();
-        $('.F').text(weather.data.current_condition[0].temp_F + "\xB0F");
+        var temp_F = weather.data.current_condition[0].temp_F;
+        $('.F').text(temp_F + "\xB0F");
         $('.C').text(weather.data.current_condition[0].temp_C + "\xB0C");
         $('.sunrise').text("Sunrise: " + weather.data.weather[0].astronomy[0].sunrise);
         $('.sunset').text("Sunset: " + weather.data.weather[0].astronomy[0].sunset);
+        // $('.container').css('background-image','http://e2ua.com/data/wallpapers/137/WDF_1789143.jpg');
+        if ( parseInt(temp_F) >= 50){
+            $('.container').addClass('sunnyImage');
+        }
     }
 
     // ============== Calling the API =====================
@@ -121,4 +126,6 @@ $(function() {
         // SearchLocation();
         GetLocalWeather();
     });
+
+    // background-image auto-changer
 });
