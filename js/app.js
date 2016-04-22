@@ -1,9 +1,12 @@
+var userLocation;
+var userWeather;
 $(function() {
     // Globar variable declarations
     var long;
     var lat;
     var _PremiumApiKey = '53e52111be3c4f67879214703162104';
     var _PremiumApiBaseURL = 'http://api.worldweatheronline.com/premium/v1/';
+
 
     navigator.geolocation.getCurrentPosition(function(position) {
         long = position.coords.longitude;
@@ -15,9 +18,11 @@ $(function() {
 
     function SearchLocation() {
         var searchLocationInput = {
-            query: lat + ',' + long,
+            query: long + ',' + lat,
             format: 'JSON',
             timezone: 'yes',
+            popular: '',
+            num_of_results: '',
             callback: 'SearchLocationCallback'
         };
 
@@ -25,9 +30,9 @@ $(function() {
     }
 
     function JSONP_SearchLocation(input) {
-        var url = _PremiumApiBaseURL + "search.ashx?q=" + input.query + "&format=" + input.format + "&timezone=" + input.timezone + "&key=" + _PremiumApiKey;
+        var url = _PremiumApiBaseURL + "search.ashx?q=" + input.query + "&format=" + input.format + "&timezone=" + input.timezone + "&popular=" + input.popular + "&num_of_results=" + input.num_of_results + "&key=" + _PremiumApiKey;
 
-        jsonP(url, input.callback);
+        locationCall(url, input.callback);
     }
 
     function SearchLocationCallback(searchLocation) {
@@ -48,6 +53,11 @@ $(function() {
             query: lat + ',' + long,
             format: 'JSON',
             num_of_days: '2',
+            date: '',
+            fx: '',
+            cc: 'yes',
+            includelocation: 'yes',
+            show_comments: '',
             callback: 'LocalWeatherCallback'
         };
         JSONP_LocalWeather(localWeatherInput);
@@ -55,13 +65,18 @@ $(function() {
     }
 
     function JSONP_LocalWeather(input) {
-        var url = _PremiumApiBaseURL + 'weather.ashx?q=' + input.query + '&format=' + input.format +  '&num_of_days=' + input.num_of_days + '&key=' + _PremiumApiKey;
+         var url = _PremiumApiBaseURL + 'weather.ashx?q=' + input.query + '&format=' + input.format + '&extra=' + input.extra + '&num_of_days=' + input.num_of_days + '&date=' + input.date + '&fx=' + input.fx + '&tp=' + input.tp + '&cc=' + input.cc + '&includelocation=' + input.includelocation + '&show_comments=' + input.show_comments + '&key=' + _PremiumApiKey;
+         weatherCall(url, input.callback);
+    }
 
-        jsonP(url, input.callback);
+    function LocalWeatherCallback(weather) {
+        console.log(weather.data);
+        var tempContainer = $('.tempOutput');
+        $('.F').text(weather.data.current_condition[0].temp_F);
     }
 
     // ============== Calling the API =====================
-    function jsonP(url, callback) {
+    function weatherCall(url, callback) {
         $.ajax({
             type: 'GET',
             url: url,
@@ -69,8 +84,8 @@ $(function() {
             contentType: "application/json",
             jsonpCallback: callback,
             dataType: 'jsonp',
-            success: function(json) {
-                console.dir(json);
+            success: function(weather) {
+                LocalWeatherCallback(weather);
             },
             error: function(e) {
                 console.log(e.message);
@@ -78,9 +93,28 @@ $(function() {
         });
     }
 
+    function locationCall(url, callback) {
+        $.ajax({
+            type: 'GET',
+            url: url,
+            async: false,
+            contentType: "application/json",
+            jsonpCallback: callback,
+            dataType: 'jsonp',
+            success: function(location) {
+                // console.log(location);
+            },
+            error: function(e) {
+                console.log(e.message);
+            }
+        });
+    }
+
+
+
     $('#btnLocalWeatherPremium').on('click', function(e) {
         e.preventDefault();
-        SearchLocation();
+        // SearchLocation();
         GetLocalWeather();
     });
 });
