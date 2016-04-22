@@ -1,0 +1,9 @@
+.output {
+    font-size: 5em;
+    border: 1px solid black;
+    border-radius: 50px;
+    background-color: salmon;
+    width: 30%;
+    text-align: center;
+    margin: 1em;
+}

@@ -70,9 +70,11 @@ $(function() {
     }
 
     function LocalWeatherCallback(weather) {
-        console.log(weather.data);
-        var tempContainer = $('.tempOutput');
-        $('.F').text(weather.data.current_condition[0].temp_F);
+        console.log();
+        $('.F').text(weather.data.current_condition[0].temp_F + "\xB0F");
+        $('.C').text(weather.data.current_condition[0].temp_C + "\xB0C");
+        $('.sunrise').text("Sunrise: " + weather.data.weather[0].astronomy[0].sunrise);
+        $('.sunset').text("Sunset: " + weather.data.weather[0].astronomy[0].sunset);
     }
 
     // ============== Calling the API =====================
@@ -110,7 +112,9 @@ $(function() {
         });
     }
 
-
+    $( ".output" ).draggable({
+        addClasses: false
+    });
 
     $('#btnLocalWeatherPremium').on('click', function(e) {
         e.preventDefault();
